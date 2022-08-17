@@ -1,0 +1,93 @@
+<form method="POST" action="/postres/insertar" accept-charset="UTF-8" role="form" id="crearpostre" name="crearpostre" enctype="multipart/form-data">
+    
+    <!-- Protección CSRF -->
+    <%= token_tag nil %>
+
+    <div class="row">
+        <div class="col-md-12">
+            <section class="panel">
+                <div class="panel-body">
+
+                    <div class="form-group">
+                        <label for="nombre" class="negrita">Nombre:</label>
+                        <div>
+                            <input class="form-control" placeholder="Torta de Chocolate" name="nombre" type="text" id="nombre" onload="crearUrlAmigable(this.value);" onkeypress="crearUrlAmigable(this.value);" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="precio" class="negrita">Precio:</label>
+                        <div>
+                            <input class="form-control" placeholder="4.50" name="precio" type="text" id="precio" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="stock" class="negrita">Stock:</label>
+                        <div>
+                            <input class="form-control" placeholder="40" name="stock" type="text" id="stock" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="img" class="negrita">Selecciona una imagen:</label>
+                        <div>
+                            <%# <input class="form-control" type="file" name="img" id="img" required> %>
+                            <input class="form-control" type="file" name="nimg" id="nimg" onchange="cargarImagen()" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="url" class="negrita">URL:</label>
+                        <div>
+                            <input type="text" class="form-control" name="url" id="url" readonly>
+                            <input type="text" class="form-control" name="nimg" id="nimg" readonly hidden>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-info">Guardar</button>
+                    <%= link_to 'Cancelar', url_for(:back), class: "btn btn-warning" %>
+
+                        <br>
+                        <br>
+
+                </div>
+            </section>
+        </div>
+    </div>
+</form>
+
+<script>
+function crearUrlAmigable(str) {
+
+    // Reemplaza los carácteres especiales | simbolos con un espacio 
+    str = str.replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, ' ').toLowerCase();
+
+    // Corta los espacios al inicio y al final del string
+    str = str.replace(/^\s+|\s+$/gm, '');
+
+    // Reemplaza el espacio con guión 
+    str = str.replace(/\s+/g, '-');
+
+    var input = document.getElementById('url');
+    input.value = str;
+
+}
+</script>
+
+<script>
+function cargarImagen() {
+
+    var name = document.getElementById('nimg');
+    //alert('Nombre: ' + name.files.item(0).name);
+    //alert('Tamaño: ' + name.files.item(0).size);
+    //alert('Tipo: ' + name.files.item(0).type)
+
+    nas = name.files.item(0).name
+
+    var ini = document.getElementById('img');
+
+    ini.value = nas;
+
+}
+</script>
